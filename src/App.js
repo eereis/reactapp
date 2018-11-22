@@ -15,7 +15,7 @@ import Mist from './mist.jpg';
 const API_KEY = "f1113e7fe82138f89f3f4464bdbb57a1";
 
 class App extends React.Component {
-
+//Set initial state of objects
   state = {
     temperature: undefined,
     city: undefined,
@@ -25,7 +25,7 @@ class App extends React.Component {
     error: undefined,
     cod: undefined
   }
-
+//return a randomized string of numbers for the API call when using randomize button
   generateRandomID() {
     const randomID = (""+ Math.random()).substring(2,9);
       //console.log("ID:" + citylist.id);
@@ -39,10 +39,12 @@ class App extends React.Component {
     const response = await API_CALL.json();
     console.log(cityID);
 
+    // Make the API call until city is found with the ID returned from generateRandomID
     if(response.cod === '404'){
-      this.randomizeCity(e);
+      this.randomizeCity(e); // call the function again
     }
     else {
+      // Bind response values to objects
     this.setState({
 
       temperature: response.main.temp,
@@ -103,8 +105,6 @@ class App extends React.Component {
       document.getElementById('maintext').style.color = 'black';
       document.getElementById("weather").style.color = 'black';
 
-
-
     }
     else if((response.weather[0].icon === '50d') || (response.weather[0].icon === '50n')){
       document.body.style.backgroundImage = "url(" + Mist + ")";
@@ -120,6 +120,7 @@ class App extends React.Component {
 }
 
 }
+  // The function to call when the search button(Enter) is pressed
   getWeather = async (e) =>  {
     e.preventDefault();
     const city = e.target.elements.city.value;
@@ -127,12 +128,13 @@ class App extends React.Component {
     const response = await API_CALL.json();
 
     console.log(response);
-
+    // Check if the response from openweathermap API is valid
     if(response.cod === '404'){
       this.setState({
         cod: "Invalid city name"
       })
     }
+    // If the response is valid, bind the values from the response to the objects
     else if(city){
     this.setState({
 
@@ -144,7 +146,7 @@ class App extends React.Component {
       error: ""
 
     })
-    // Change background color based on weather conditions
+    // Change background color based on weather conditions and their icons
     if((response.weather[0].icon === '01d') || (response.weather[0].icon === '01n')) {
       document.body.style.backgroundImage = "url(" + Clear + ")";
       document.body.style.backgroundSize = 'cover';
@@ -211,31 +213,30 @@ class App extends React.Component {
     }
 
   }else{
+    // set objects back to initial state
     this.setState({
       temperature: undefined,
       city: undefined,
       country: undefined,
       description: undefined,
       icon: undefined,
-      //error: "Please enter a valid city name",
       cod: ""
     })
   }
-  }
+} //Render the elements to the DOM
   render() {
    return (
     <div>
     <Main />
     <Search
-    loadWeather={this.getWeather}
-    randomize={this.randomizeCity}
+    loadWeather={this.getWeather} // bind getWeather to search button
+    randomize={this.randomizeCity} // bind randomizeCity to randomize button
     />
     <Weather
     temperature={this.state.temperature}
     city={this.state.city}
     country={this.state.country}
     description={this.state.description}
-    //icon=<img alt="" src={`https://openweathermap.org/img/w/${this.state.icon}.png`}/>
     error={this.state.error}
     cod={this.state.cod}/>
     </div>
