@@ -27,7 +27,7 @@ class App extends React.Component {
   randomizeCity = async (e) => {
     //e.preventDefault();
     const cityID = this.generateRandomID(); // call generateRandomID here
-    const API_CALL = await fetch (`http://api.openweathermap.org/data/2.5/weather?id=${cityID}&appid=${API_KEY}&units=metric`);
+    const API_CALL = await fetch (`https://api.openweathermap.org/data/2.5/weather?id=${cityID}&appid=${API_KEY}&units=metric`);
     const response = await API_CALL.json();
     console.log(cityID);
 
@@ -50,7 +50,7 @@ class App extends React.Component {
   getWeather = async (e) =>  {
     e.preventDefault();
     const city = e.target.elements.city.value;
-    const API_CALL = await fetch (`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
+    const API_CALL = await fetch (`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
     const response = await API_CALL.json();
 
     console.log(response);
@@ -137,7 +137,7 @@ class App extends React.Component {
     city={this.state.city}
     country={this.state.country}
     description={this.state.description}
-    icon=<img alt="" src={`http://openweathermap.org/img/w/${this.state.icon}.png`}/>
+    icon=<img alt="" src={`https://openweathermap.org/img/w/${this.state.icon}.png`}/>
     error={this.state.error}
     cod={this.state.cod}/>
     </div>
